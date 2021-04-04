@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="sale")
 @Table(name="sale")
 public class Sale {
@@ -17,17 +19,15 @@ public class Sale {
 	@Column(name="date_sale")
 	private Date dateSale;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="client")
 	private Person person;
 	
-	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	@JoinTable(name="product_has_sale",
-		joinColumns = { @JoinColumn(name="product_id_product") },
-		inverseJoinColumns = { @JoinColumn(name="sale_id_sale") }
-			)
+	//@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sales")
 	private List<Product> products;
-
+	
 	public Long getIdSale() {
 		return idSale;
 	}
@@ -59,7 +59,6 @@ public class Sale {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
 	
 
 }

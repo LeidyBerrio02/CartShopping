@@ -18,7 +18,7 @@ public class SaleServiceImp implements SaleService{
 	@Override
 	public List<Sale> listSale() {
 		// TODO Auto-generated method stub
-		return saleRepository.findAll();
+		return saleRepository.listCompletSale();
 	}
 
 }

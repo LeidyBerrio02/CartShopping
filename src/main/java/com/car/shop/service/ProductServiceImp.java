@@ -27,12 +27,7 @@ public class ProductServiceImp implements ProductService{
 		return productRepository.save(product);
 	}
 
-	@Override
-	public Product search(Product product) {
-		// TODO Auto-generated method stub
-		return productRepository.findById(product.getIdProduct()).orElse(null);
-	}
-
+	
 	@Override
 	public Boolean delete(Long idProduct) {
 		if(productRepository.existsById(idProduct)) {
@@ -42,4 +37,24 @@ public class ProductServiceImp implements ProductService{
 		return false;
 	}
 
+	@Override
+	public Product update(Long idProduct, Product product) {
+		Product productDB = productRepository.findById(idProduct).orElse(null);
+		if(product != null){
+			productDB.setNameProduct(product.getNameProduct());
+			productDB.setCode(product.getCode());
+			productDB.setPrice(product.getPrice());
+			productDB.setQuantity(product.getQuantity());
+		}
+		
+		return productRepository.save(productDB);
+	}
+
+	@Override
+	public List<Product> listProductSale() {
+		// TODO Auto-generated method stub
+		return productRepository.productSale();
+	}
+
 }
+

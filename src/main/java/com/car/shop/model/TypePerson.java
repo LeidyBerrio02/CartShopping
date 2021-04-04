@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="typeperson")
 @Table(name="typeperson")
 public class TypePerson {
@@ -16,7 +18,8 @@ public class TypePerson {
 	@Column(name="type_person")
 	private String typePerson;
 	
-	@OneToMany(mappedBy = "typePerson", fetch = FetchType.EAGER)
+	@JsonIgnore
+	@OneToMany(mappedBy = "typePerson", fetch = FetchType.LAZY)
 	private List<Person> persons;
 
 	public long getIdTypePerson() {

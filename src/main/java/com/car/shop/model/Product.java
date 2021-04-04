@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="product")
 @Table(name="product")
 public class Product {
@@ -12,7 +14,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_product")
-	private long idProduct;
+	private Long idProduct;
 
 	@Column(name="code")
 	private String code;
@@ -26,18 +28,19 @@ public class Product {
 	@Column(name="price")
 	private double price;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="supplier")
-	private Person personSupplier;
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@JoinTable(name="product_has_sale",
+		joinColumns = { @JoinColumn(name="product_id_product") },
+		inverseJoinColumns = { @JoinColumn(name="sale_id_sale") }
+			)
 	private List<Sale> sales;
 
-	public long getIdProduct() {
+	public Long getIdProduct() {
 		return idProduct;
 	}
 
-	public void setIdProduct(long idProduct) {
+	public void setIdProduct(Long idProduct) {
 		this.idProduct = idProduct;
 	}
 
@@ -73,14 +76,6 @@ public class Product {
 		this.price = price;
 	}
 
-	public Person getPersonSupplier() {
-		return personSupplier;
-	}
-
-	public void setPersonSupplier(Person personSupplier) {
-		this.personSupplier = personSupplier;
-	}
-
 	public List<Sale> getSales() {
 		return sales;
 	}
@@ -88,6 +83,7 @@ public class Product {
 	public void setSales(List<Sale> sales) {
 		this.sales = sales;
 	}
-	
+
+
 	
 }

@@ -16,6 +16,12 @@ public class PersonServiceImp implements PersonService{
 	private PersonRepository personRepository;
 	
 	@Override
+	public List<Person> listAll() {
+		// TODO Auto-generated method stub
+		return personRepository.findAll();
+	}
+	
+	@Override
 	public List<Person> listClients() {
 		// TODO Auto-generated method stub
 		return personRepository.onlyClients();
@@ -32,13 +38,19 @@ public class PersonServiceImp implements PersonService{
 		// TODO Auto-generated method stub
 		return personRepository.save(person);
 	}
+	
 
 	@Override
-	public Person search(Person person) {
-		// TODO Auto-generated method stub
-		return personRepository.findById(person.getIdPerson()).orElse(null);
+	public Person update(Long idPerson, Person person) {
+		Person personDB = personRepository.findById(idPerson).orElseGet(null);
+		
+		if(person != null) {
+			personDB.setFirstName(person.getFirstName());
+			personDB.setLastName(person.getLastName());
+		}
+		return personRepository.save(personDB);
 	}
-
+	
 	@Override
 	public Boolean delete(Long idPerson) {
 		if(personRepository.existsById(idPerson)) {
@@ -47,5 +59,8 @@ public class PersonServiceImp implements PersonService{
 		}
 		return false;
 	}
+
+	
+
 
 }
